@@ -1,0 +1,53 @@
+/* Base styles for the home page */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Typography adjustments for responsiveness */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+    h1, h2, h3 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    body {
+        font-size: 16px;
+    }
+    h1, h2, h3 {
+        font-size: 2rem;
+    }
+}
+
+@media (min-width: 1025px) {
+    body {
+        font-size: 18px;
+    }
+    h1, h2, h3 {
+        font-size: 2.5rem;
+    }
+}
+
+/* Style for sign-up links to make them visually prominent */
+.signup-link {
+    display: inline-block;
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.signup-link:hover, .signup-link:focus {
+    background-color: #0056b3;
+    color: #ffffff;
+}
