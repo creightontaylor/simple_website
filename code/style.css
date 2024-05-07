@@ -6,7 +6,40 @@ body {
     margin: 0;
     padding: 0;
 }
+@media (min-width: 600px) {
+    .content {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
 
+header, section {
+    flex: 1 1 300px;
+    margin: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+h1, h2, h3 {
+    color: #0275d8;
+}
+
+p {
+    text-align: left;
+    line-height: 1.6;
+}
+
+a {
+    color: #d9534f;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
 .content {
     padding: 20px;
 }
