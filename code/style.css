@@ -6,7 +6,45 @@ body {
     margin: 0;
     padding: 0;
 }
-
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
 .content {
     padding: 20px;
+}
+@media (min-width: 768px) {
+    .content {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+}
+
+header, section {
+    margin: 10px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+h1, h2, h3 {
+    color: #0275d8;
+}
+
+p {
+    text-align: left;
+    line-height: 1.6;
+}
+
+a {
+    color: #d9534f;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
