@@ -1,0 +1,42 @@
+name: Daily Summary Report
+
+on:
+  schedule:
+    - cron: '0 7 * * *' # Runs at 07:00 UTC daily
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Fetch data
+        run: python fetch_data.py
+
+      - name: Process data
+        run: python process_data.py
+
+      - name: Generate report
+        run: python generate_report.py
+
+      - name: Save report
+        run: python save_report.py
+
+      - name: Commit and Push
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+          git add .
+          git commit -m "Update daily summary report"
+          git push
