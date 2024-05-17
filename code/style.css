@@ -1,12 +1,12 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background-color: #e0e0e0;
     color: #333;
-    text-align: center;
+    text-align: left;
     margin: 0;
     padding: 0;
 }
 
 .content {
-    padding: 20px;
+    padding: 40px;
 }
