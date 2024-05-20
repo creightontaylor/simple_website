@@ -10,6 +10,25 @@ permissions:
   pull-requests: read
 
 jobs:
+  fetch_repo_data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Fetch repository data
+        uses: actions/github-script@v5
+        with:
+          script: |
+            const { data: commits } = await github.rest.repos.listCommits({ owner: context.repo.owner, repo: context.repo.repo });
+            const commitMessages = commits.map(commit => commit.commit.message);
+            const commitAuthors = commits.map(commit => commit.commit.author.name);
+            const { data: issues } = await github.rest.issues.listForRepo({ owner: context.repo.owner, repo: context.repo.repo, state: 'all' });
+            const openIssues = issues.filter(issue => issue.state === 'open').length;
+            const closedIssues = issues.filter(issue => issue.state === 'closed').length;
+            core.setOutput('commitMessages', commitMessages);
+            core.setOutput('commitAuthors', commitAuthors);
+            core.setOutput('openIssues', openIssues);
+            core.setOutput('closedIssues', closedIssues);
   generate-report:
     runs-on: ubuntu-latest
     steps:
