@@ -25,3 +25,8 @@ jobs:
 
       - name: Execute Script
         run: python generate_daily_summary.py
+       - name: Commit and Push Changes
+         uses: stefanzweifel/git-auto-commit-action@v4
+         with:
+           commit_message: Update daily summary report for ${{ github.event.schedule.* }}
+           file_pattern: daily_summary.md
