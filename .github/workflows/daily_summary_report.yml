@@ -50,3 +50,33 @@ jobs:
           echo "**Open Issues:** ${{ steps.fetch_repository_data.outputs.openIssues }}" >> report.md
           echo "**Closed Issues:** ${{ steps.fetch_repository_data.outputs.closedIssues }}" >> report.md
         # Add the actual steps for generating and distributing the report as needed
+   save_report:
+     needs: generate-report
+     runs-on: ubuntu-latest
+     steps:
+       - name: Checkout repository
+         uses: actions/checkout@v2
+       - name: Save report to 'daily_summary.md'
+         run: |
+           mv report.md daily_summary.md
+       - name: Commit and push report
+         uses: actions/github-script@v5
+         with:
+           script: |
+             const fs = require('fs');
+             const path = './daily_summary.md';
+             const github = require('@actions/github');
+             const core = require('@actions/core');
+             const exec = require('@actions/exec');
+             async function run() {
+               const message = 'chore: Update daily summary report';
+               const email = 'github-actions[bot]@users.noreply.github.com';
+               const name = 'github-actions[bot]';
+               const branch = 'main';
+               await exec.exec('git', ['config', '--local', 'user.email', email]);
+               await exec.exec('git', ['config', '--local', 'user.name', name]);
+               await exec.exec('git', ['add', path]);
+               await exec.exec('git', ['commit', '-m', message, '--allow-empty']);
+               await exec.exec('git', ['push']);
+             }
+             run();
