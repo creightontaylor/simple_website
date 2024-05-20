@@ -35,5 +35,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Generate report
-        run: echo 'Report generation script goes here.'
+        run: |
+          echo "## Daily Summary Report" > report.md
+          echo "**Date:** $(date '+%Y-%m-%d')" >> report.md
+          echo "**Number of Commits:** ${{ steps.fetch_repository_data.outputs.commitMessages | length }}" >> report.md
+          echo "**Commit Messages:**" >> report.md
+          for msg in ${{ join(fromJson(steps.fetch_repository_data.outputs.commitMessages), '\\n') }}; do
+            echo "- $msg" >> report.md
+          done
+          echo "**Authors:**" >> report.md
+          for author in ${{ join(fromJson(steps.fetch_repository_data.outputs.commitAuthors), '\\n') }}; do
+            echo "- $author" >> report.md
+          done
+          echo "**Open Issues:** ${{ steps.fetch_repository_data.outputs.openIssues }}" >> report.md
+          echo "**Closed Issues:** ${{ steps.fetch_repository_data.outputs.closedIssues }}" >> report.md
         # Add the actual steps for generating and distributing the report as needed
