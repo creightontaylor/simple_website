@@ -1,0 +1,20 @@
+name: Daily Summary Report
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs at 00:00 UTC every day
+
+permissions:
+  contents: read
+  issues: read
+  pull-requests: read
+
+jobs:
+  generate-report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Generate report
+        run: echo 'Report generation script goes here.'
+        # Add the actual steps for generating and distributing the report as needed
