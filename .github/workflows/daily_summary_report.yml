@@ -23,5 +23,11 @@ jobs:
        - name: Authenticate using GitHub Token
          env:
            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Run the script
-        run: python your_script.py
+       - name: Fetch Data
+         run: python fetch_data.py
+         env:
+           GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
+       - name: Generate Report
+         run: python generate_report.py
+         env:
+           DATA_PATH: ./data/output.json
