@@ -20,7 +20,20 @@ with shelve.open('api_cache') as cache:
     if cache_key in cache and time.time() - cache[cache_key]['timestamp'] < 86400:
         commits_data = cache[cache_key]['data']
     else:
-        commits_response = requests.get(f'{GITHUB_REPO}/commits', headers=headers)
+        for attempt in range(5):
+            try:
+                commits_response = requests.get(f'{GITHUB_REPO}/commits', headers=headers)
+                commits_response.raise_for_status()
+                break
+            except requests.exceptions.HTTPError as http_err:
+                print(f'HTTP error occurred: {http_err}')
+                time.sleep(2 ** attempt)
+            except Exception as err:
+                print(f'Other error occurred: {err}')
+                time.sleep(2 ** attempt)
+            else:
+                commits_data = commits_response.json()
+                cache[cache_key] = {'data': commits_data, 'timestamp': time.time()}
         commits_data = commits_response.json()
         cache[cache_key] = {'data': commits_data, 'timestamp': time.time()}
 
@@ -30,7 +43,20 @@ with shelve.open('api_cache') as cache:
     if cache_key in cache and time.time() - cache[cache_key]['timestamp'] < 86400:
         issues_data = cache[cache_key]['data']
     else:
-        issues_response = requests.get(f'{GITHUB_REPO}/issues', headers=headers, params={'state': 'all'})
+        for attempt in range(5):
+            try:
+                issues_response = requests.get(f'{GITHUB_REPO}/issues', headers=headers, params={'state': 'all'})
+                issues_response.raise_for_status()
+                break
+            except requests.exceptions.HTTPError as http_err:
+                print(f'HTTP error occurred: {http_err}')
+                time.sleep(2 ** attempt)
+            except Exception as err:
+                print(f'Other error occurred: {err}')
+                time.sleep(2 ** attempt)
+            else:
+                issues_data = issues_response.json()
+                cache[cache_key] = {'data': issues_data, 'timestamp': time.time()}
         issues_data = issues_response.json()
         cache[cache_key] = {'data': issues_data, 'timestamp': time.time()}
 
