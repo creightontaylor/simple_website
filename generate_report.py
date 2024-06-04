@@ -84,5 +84,5 @@ report += f"""
 """
 
 # Save the report to a markdown file
-with open('REPORT.md', 'w') as file:
+with open('daily_summary.md', 'w') as file:
     file.write(report)
