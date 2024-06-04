@@ -51,6 +51,21 @@ if __name__ == '__main__':
         for commit in commits:
             print(f'- {commit['commit']['message']} by {commit['commit']['author']['name']}')
         print(f'Open issues: {open_issues}')
-        print(f'Closed issues: {closed_issues}')
+         # Save summary to daily_summary.md
+         with open('daily_summary.md', 'w') as file:
+             file.write(f'Date: {today}\n')
+             file.write('Commits:\n')
+             for commit in commits:
+                 file.write(f'- {commit['commit']['message']} by {commit['commit']['author']['name']}\n')
+             file.write(f'Open issues: {open_issues}\n')
+             file.write(f'Closed issues: {closed_issues}')
     except Exception as e:
         print(f'Error: {e}')
+         # Git add, commit, and push
+         os.system('git add daily_summary.md')
+         commit_status = os.system('git commit -m "Update daily summary for ' + today + '"')
+         if commit_status != 0:
+             raise Exception('Git commit failed')
+         push_status = os.system('git push')
+         if push_status != 0:
+             raise Exception('Git push failed')
