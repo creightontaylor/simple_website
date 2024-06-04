@@ -3,7 +3,9 @@ import requests
 import shelve
 import time
 # Securely access GitHub Personal Access Token from environment variables
-GITHUB_TOKEN = os.getenv('GITHUB_TOKEN')
+# To set up this environment variable, use the following command in your terminal or CI/CD pipeline:
+# export GITHUB_TOKEN='your_personal_access_token_here'
+GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN')
 GITHUB_REPO = 'https://api.github.com/repos/username/repository'
 
 # Headers to authenticate with GitHub API using the token
